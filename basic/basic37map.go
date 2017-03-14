@@ -41,6 +41,35 @@ func main() {
 		//2: map[int]string {1 : "a", 2: "b"},
 		1: {1 : "A", 2: "B"},
 		2: {1 : "a", 2: "b"},
+		3: {1 : "あ", 2: "い"},
 	}
 	p(maps)
+
+
+	// キーとバリューのループになる。
+	// ループの順序は保証されない。
+	for k, v := range maps {
+		fmt.Printf("%d %#v\n",k, v)
+	}
+
+	// 要素の件数を取得できる。
+	p(len(maps))
+
+	p("削除================================================")
+	delete(maps, 1)
+	for k, v := range maps {
+		fmt.Printf("%d %#v\n",k, v)
+	}
+
+	// 全ての要素が削除される。
+	for k, _ := range maps {
+		delete(maps, k)
+	}
+	p(len(maps))
+
+
+	// 要素数が巨大なマップの場合、メモリ割り当ての参考値として要素数を指定できる。
+	// あくまで参考値なので、パフォーマンスが期待できるかは確実ではない。
+	bigmap := make(map[int]string, 100)
+	p(bigmap)
 }
