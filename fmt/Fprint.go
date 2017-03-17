@@ -1,14 +1,14 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
 // ファイルにフォーマットされた値を出力する。
 func main() {
 	var err error
-	defer func () {
+	defer func() {
 		if err != nil {
 			fmt.Println(err)
 		}

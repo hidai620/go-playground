@@ -38,23 +38,21 @@ import (
  チャネルのデフォルトで格納できる1件 + lenで取得した件数で計算できる。
  lenが0を返す場合、かつチャネルのバッファがゼロの場合、
  チャネルに値が入っているかどうかlenの結果からでは判断がつかない。
-
- ## チャネルのキューとしての機能
- チャネルはゴルーチン間の値の受け渡しに利用するために設計されている。
- 単独のmain関数から起動されたゴルーチン内のみでキューのように利用してはならない。
-
- バッファが1以上あれば、自分で他のゴルーチンを起動していなくても、
- チャネルに値を送信して、そのチャネルから送信した値を受信することは確かにできるが、
- ゴルーチンはそのような一つのゴルーチン内で利用するキューのような目的で設計されたものではない。
- バッファの空きがなくなり、デッドロックに陥る可能性があり危険。
- チャネルはゴルーチン間の値の受け渡しのみに利用する。
-
  */
 
 func main() {
 	ch := make(chan int64)
 
-	go sender(ch)
+	//go sender(ch)
+	go func() {
+		for {
+			time.Sleep(1 * time.Millisecond)
+			var value = time.Now().Unix()
+			fmt.Printf("sender: send before %d\n", value)
+			ch <- value  // バッファに空きがない状態では送ったあと、受信されるまで次の処理に進まない。
+			fmt.Printf("sender: send after %d\n")
+		}
+	}()
 
 	for {
 		time.Sleep(1 * time.Second)
@@ -67,7 +65,7 @@ func main() {
 
 func sender(ch chan int64) {
 	for {
-		time.Sleep(1 * time.Second)
+		time.Sleep(1 * time.Millisecond)
 		var value = time.Now().Unix()
 		fmt.Printf("sender: send before %d\n", value)
 		ch <- value  // バッファに空きがない状態では送ったあと、受信されるまで次の処理に進まない。

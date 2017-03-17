@@ -20,10 +20,10 @@ func main() {
 	go sub()
 	fmt.Printf("NumGroutine: %d\n", runtime.NumGoroutine()) // 2
 	//
-	//for {
-	//	println("main loop")
-	//	time.Sleep(1 * time.Second)
-	//}
+	for {
+		println("main loop")
+		time.Sleep(1 * time.Second)
+	}
 
 }
 

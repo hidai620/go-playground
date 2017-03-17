@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// flagパッケージではコマンドライン引数をパースするメソッドが用意されている。
 func main() {
 	var (
 		num int
